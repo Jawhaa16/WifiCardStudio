@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="mn" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFi Card Studio Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,600&family=Caveat:wght@700&family=Space+Mono:wght@700&family=Righteous&family=Great+Vibes&family=Oswald:wght@500;700&family=Quicksand:wght@500;700&family=DM+Sans:wght@400;500;700&family=Raleway:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        hand: ['Caveat', 'cursive'],
+                        mono: ['Space Mono', 'monospace'],
+                        retro: ['Righteous', 'cursive'],
+                        script: ['Great Vibes', 'cursive'],
+                        oswald: ['Oswald', 'sans-serif'],
+                        oswald: ['Oswald', 'sans-serif'],
+                        round: ['Quicksand', 'sans-serif'],
+                        dmsans: ['DM Sans', 'sans-serif'],
+                        raleway: ['Raleway', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom Scrollbar for sidebar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.5);
+            border-radius: 20px;
+        }
+
+        .frame-modern {
+            border-radius: 2.5rem;
+        }
+
+        .frame-top-strip {
+            border-radius: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 16px solid currentColor;
+        }
+
+        .frame-border {
+            border-radius: 2.5rem;
+            border: 8px solid currentColor;
+        }
+
+        .frame-neon {
+            border-radius: 2.5rem;
+            box-shadow: 0 0 20px currentColor, inset 0 0 20px currentColor;
+            border: 2px solid currentColor;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-50 dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-100 transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/30">
+                    S</div>
+                <h1 class="text-lg font-bold tracking-tight">WiFi Studio <span
+                        class="text-indigo-600 dark:text-indigo-400">Pro</span></h1>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="downloadBtnNav"
+                    class="hidden md:flex bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Татах
+                </button>
+                <button id="themeToggle"
+                    class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                    <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                    <svg id="moonIcon" class="w-5 h-5 block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 24.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16 min-h-screen flex flex-col lg:flex-row">
+
+        <!-- LEFT PANEL (Controls) -->
+        <aside
+            class="w-full lg:w-[400px] flex-shrink-0 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 z-10 flex flex-col h-[calc(100vh-64px)] overflow-hidden sticky top-16">
+
+            <!-- Tabs Header -->
+            <div class="flex border-b border-slate-200 dark:border-slate-700">
+                <button onclick="switchTab('content')" id="tabBtn-content"
+                    class="flex-1 py-4 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 dark:text-indigo-400 bg-slate-50 dark:bg-slate-800/50 transition-colors">
+                    📝 Мэдээлэл
+                </button>
+                <button onclick="switchTab('design')" id="tabBtn-design"
+                    class="flex-1 py-4 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-indigo-600 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                    🎨 Дизайн
+                </button>
+            </div>
+
+            <!-- Scrollable Content Area -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+
+                <!-- TAB 1: CONTENT -->
+                <div id="tab-content" class="space-y-6 animate-fade-in">
+                    <!-- WiFi Section -->
+                    <div class="space-y-4">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">WiFi Тохиргоо</label>
+                        <div class="space-y-3">
+                            <input type="text" id="ssid" name="wifi_ssid" autocomplete="on"
+                                class="w-full px-4 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                                placeholder="WiFi Нэр (SSID)">
+
+                            <div class="relative">
+                                <input type="text" id="password" name="wifi_password" autocomplete="off"
+                                    data-lpignore="true"
+                                    class="w-full px-4 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                                    placeholder="Нууц үг">
+                            </div>
+
+                            <select id="encryption"
+                                class="w-full px-4 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                                <option value="WPA">🔒 WPA/WPA2 (Нууцлалтай)</option>
+                                <option value="nopass">🔓 Нууцлалгүй</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-100 dark:border-slate-700">
+
+                    <!-- Text Section -->
+                    <div class="space-y-4">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Картны бичиглэл</label>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div>
+                                <label class="text-xs text-slate-500 mb-1 block">Том гарчиг</label>
+                                <input type="text" id="headerText" value="Free WiFi"
+                                    class="w-full px-4 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500 mb-1 block">Жижиг тайлбар</label>
+                                <input type="text" id="subText" value="Scan to Connect"
+                                    class="w-full px-4 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social -->
+                    <div class="space-y-4">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Social Media
+                            (Сонголтоор)</label>
+                        <div class="flex gap-2">
+                            <select id="socialIcon"
+                                class="w-1/3 px-3 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                                <option value="none">None</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="facebook">Facebook</option>
+                                <option value="twitter">X / Twitter</option>
+                            </select>
+                            <input type="text" id="socialHandle" placeholder="@username"
+                                class="flex-1 px-4 py-3 text-sm rounded-lg bg-slate-50 border border-slate-200 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: DESIGN -->
+                <div id="tab-design" class="space-y-8 hidden animate-fade-in">
+
+                    <!-- Colors -->
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">Брэндийн
+                            өнгө</label>
+                        <div class="grid grid-cols-5 gap-3">
+                            <button onclick="updateColor('#4f46e5')"
+                                class="aspect-square rounded-full bg-indigo-600 hover:scale-110 transition-transform ring-2 ring-offset-2 ring-transparent active:ring-indigo-300"></button>
+                            <button onclick="updateColor('#000000')"
+                                class="aspect-square rounded-full bg-black hover:scale-110 transition-transform ring-2 ring-offset-2 ring-transparent active:ring-gray-300"></button>
+                            <button onclick="updateColor('#059669')"
+                                class="aspect-square rounded-full bg-emerald-600 hover:scale-110 transition-transform ring-2 ring-offset-2 ring-transparent active:ring-emerald-300"></button>
+                            <button onclick="updateColor('#b45309')"
+                                class="aspect-square rounded-full bg-amber-700 hover:scale-110 transition-transform ring-2 ring-offset-2 ring-transparent active:ring-amber-300"></button>
+                            <div class="relative group">
+                                <input type="color" id="customColor"
+                                    class="w-full h-full rounded-full overflow-hidden cursor-pointer absolute opacity-0"
+                                    oninput="updateColor(this.value)" value="#4f46e5">
+                                <div
+                                    class="w-full h-full rounded-full bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 flex items-center justify-center text-white border-2 border-white shadow-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Frames -->
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">Хүрээний
+                            загвар</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setFrame('frame-modern')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-center">
+                                Clean
+                            </button>
+                            <button onclick="setFrame('frame-top-strip')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-center relative overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
+                                Top Strip
+                            </button>
+                            <button onclick="setFrame('frame-border')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-center border-indigo-500">
+                                Border
+                            </button>
+                            <button onclick="setFrame('frame-neon')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-center">
+                                <span class="text-indigo-500 font-bold"
+                                    style="text-shadow: 0 0 5px currentColor">Neon</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Fonts -->
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">Фонтны
+                            төрөл</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setFont('font-sans')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-sans bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Modern</span>
+                                <span class="font-semibold">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-round')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-round bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Friendly</span>
+                                <span class="font-semibold">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-serif')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-serif bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Elegant</span>
+                                <span class="font-semibold">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-oswald')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-oswald bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Bold</span>
+                                <span class="font-bold">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-retro')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-retro bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Retro</span>
+                                <span class="font-normal">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-script')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-script bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Script</span>
+                                <span class="text-lg">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-dmsans')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-dmsans bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Minimal</span>
+                                <span class="font-semibold">Aa</span>
+                            </button>
+                            <button onclick="setFont('font-raleway')"
+                                class="p-3 text-sm border-2 border-slate-100 hover:border-indigo-500 rounded-xl font-raleway bg-white dark:bg-slate-700 dark:border-slate-600 transition-all text-left">
+                                <span class="block text-xs text-slate-400 mb-1">Sleek</span>
+                                <span class="font-semibold">Aa</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Logo -->
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">Logo &
+                            Branding</label>
+                        <div
+                            class="bg-slate-50 dark:bg-slate-700/50 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-600 p-4 text-center hover:bg-slate-100 transition-colors relative">
+                            <input type="file" id="logoUpload" accept="image/*"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                            <div class="flex flex-col items-center gap-2">
+                                <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Лого оруулах</span>
+                                <span class="text-xs text-slate-400">PNG, JPG (Max 2MB)</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 space-y-3">
+                            <label
+                                class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                <input type="checkbox" id="showLogoInQr"
+                                    class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                                <span class="text-sm font-medium">QR голд лого оруулах</span>
+                            </label>
+
+                            <label
+                                class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                <input type="checkbox" id="showPasswordToggle"
+                                    class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" checked>
+                                <span class="text-sm font-medium">Нууц үг харуулах</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Action for Mobile -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 lg:hidden block">
+                <button id="downloadBtnMobile"
+                    class="w-full py-3 bg-slate-900 text-white rounded-xl font-semibold shadow-lg">
+                    Татах (PNG)
+                </button>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL (Canvas) -->
+        <section
+            class="flex-1 bg-slate-100 dark:bg-slate-950 relative overflow-hidden flex flex-col items-center justify-center p-8 min-h-[500px]">
+            <!-- Dot Pattern Background -->
+            <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+                style="background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px;"></div>
+
+            <div class="mb-6 text-sm text-slate-400 font-mono hidden lg:block uppercase tracking-widest">Live Preview
+            </div>
+
+            <!-- THE CARD -->
+            <!-- THE CARD -->
+            <div id="previewCard"
+                class="relative bg-white text-slate-900 w-[400px] md:w-[500px] flex flex-col items-center p-12 gap-10 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 origin-center transition-all duration-300 frame-modern rounded-[2.5rem]">
+
+                <!-- Header -->
+                <div class="w-full flex flex-col items-center gap-4 text-center z-10">
+                    <img id="logoPreview" src="" class="h-24 object-contain hidden mb-2" alt="Logo">
+                    <h3 id="displayHeader" class="text-5xl font-bold leading-none tracking-tight">Free WiFi</h3>
+                    <p id="displaySub" class="text-sm opacity-60 uppercase tracking-[0.3em] font-medium mt-2">Scan to
+                        Connect</p>
+                </div>
+
+                <!-- QR Section -->
+                <!-- QR Section -->
+                <div
+                    class="relative w-80 h-80 md:w-96 md:h-96 bg-slate-50 border-2 border-slate-100 p-0 rounded-3xl group overflow-hidden flex items-center justify-center">
+                    <div id="qrImage" class="w-full h-full flex items-center justify-center p-6">
+                    </div>
+                    <!-- Center Overlay Logo -->
+                    <div id="qrCenterLogo" class="absolute inset-0 flex items-center justify-center hidden">
+                        <div
+                            class="w-24 h-24 bg-white rounded-full p-2 shadow-lg flex items-center justify-center ring-4 ring-white">
+                            <img id="centerLogoImg" src="" class="w-full h-full object-contain rounded-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="w-full text-center space-y-6 pt-2 z-10">
+                    <div>
+                        <div class="text-xs uppercase tracking-wider opacity-40 font-bold mb-2">Network Name</div>
+                        <div id="ssidDisplay" class="text-3xl font-bold break-words text-slate-800">MyCoffeeShop</div>
+                    </div>
+
+                    <div id="passwordSection">
+                        <div class="text-xs uppercase tracking-wider opacity-40 font-bold mb-2">Password</div>
+                        <div id="passDisplay"
+                            class="font-mono text-2xl bg-slate-100 border border-slate-200 px-8 py-3 rounded-2xl inline-block text-slate-600 tracking-wider">
+                            ******</div>
+                    </div>
+
+                    <!-- Social Row -->
+                    <div id="socialRow"
+                        class="hidden items-center justify-center gap-3 pt-6 border-t border-dashed border-slate-200 text-base font-medium text-slate-500">
+                        <span id="socialIconDisplay" class="text-slate-400 scale-125"></span>
+                        <span id="socialHandleDisplay"></span>
+                    </div>
+                </div>
+
+                <!-- Artistic Decor (Optional) -->
+                <div class="absolute top-0 left-0 w-full h-2 bg-current opacity-20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-2 bg-current opacity-20"></div>
+            </div>
+
+            <p class="mt-8 text-slate-400 text-xs flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                Auto-updates instantly
+            </p>
+
+        </section>
+    </main>
+
+    <script>
+        // --- State ---
+        const state = {
+            header: 'Free WiFi',
+            sub: 'Scan to Connect',
+            ssid: '',
+            password: '',
+            encryption: 'WPA',
+            encryption: 'WPA',
+            color: '#4f46e5',
+            font: 'font-sans',
+            frame: 'frame-modern',
+            logoUrl: null,
+            logoInQr: false,
+            socialApp: 'none',
+            socialHandle: ''
+        };
+
+        // --- Tab Switching Logic ---
+        function switchTab(tabName) {
+            // Content
+            document.getElementById('tab-content').classList.add('hidden');
+            document.getElementById('tab-design').classList.add('hidden');
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+            // Buttons
+            const btnContent = document.getElementById('tabBtn-content');
+            const btnDesign = document.getElementById('tabBtn-design');
+
+            // Reset Styles
+            const activeClass = ['text-indigo-600', 'border-indigo-600', 'dark:text-indigo-400'];
+            const inactiveClass = ['text-slate-500', 'border-transparent'];
+
+            if (tabName === 'content') {
+                btnContent.classList.add(...activeClass);
+                btnContent.classList.remove(...inactiveClass);
+                btnDesign.classList.remove(...activeClass);
+                btnDesign.classList.add(...inactiveClass);
+            } else {
+                btnDesign.classList.add(...activeClass);
+                btnDesign.classList.remove(...inactiveClass);
+                btnContent.classList.remove(...activeClass);
+                btnContent.classList.add(...inactiveClass);
+            }
+        }
+
+
+        // --- Elements ---
+        const els = {
+            header: document.querySelector('#headerText'),
+            sub: document.querySelector('#subText'),
+            ssid: document.querySelector('#ssid'),
+            password: document.querySelector('#password'),
+            encryption: document.querySelector('#encryption'),
+            logoUpload: document.querySelector('#logoUpload'),
+            socialIcon: document.querySelector('#socialIcon'),
+            socialHandle: document.querySelector('#socialHandle'),
+
+            // Display Els
+            card: document.querySelector('#previewCard'),
+            displayHeader: document.querySelector('#displayHeader'),
+            displaySub: document.querySelector('#displaySub'),
+            ssidDisplay: document.querySelector('#ssidDisplay'),
+            passDisplay: document.querySelector('#passDisplay'),
+            qrImage: document.querySelector('#qrImage'),
+            passSection: document.querySelector('#passwordSection'),
+
+            logoPreview: document.querySelector('#logoPreview'),
+            centerLogoImg: document.querySelector('#centerLogoImg'),
+            qrCenterLogo: document.querySelector('#qrCenterLogo'),
+
+            socialRow: document.querySelector('#socialRow'),
+            socialIconDisplay: document.querySelector('#socialIconDisplay'),
+            socialHandleDisplay: document.querySelector('#socialHandleDisplay'),
+
+            downloadBtnNav: document.querySelector('#downloadBtnNav'),
+            downloadBtnMobile: document.querySelector('#downloadBtnMobile')
+        };
+
+        // --- Core Logic ---
+        function updateAll() {
+            // Text
+            els.displayHeader.textContent = state.header || 'Free WiFi';
+            els.displaySub.textContent = state.sub || 'Scan to Connect';
+            els.ssidDisplay.textContent = state.ssid || 'Wifi Name';
+            els.passDisplay.textContent = state.password || '******';
+
+            // Styles
+            els.card.style.color = state.color;
+            if (state.frame === 'frame-modern') els.card.style.color = ''; // Reset for clean look
+
+            // Frame & Font
+            els.card.className = `relative bg-white text-slate-900 w-[400px] md:w-[500px] flex flex-col items-center p-12 gap-10 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 origin-center transition-all duration-300 rounded-[2.5rem] ${state.font} ${state.frame}`;
+
+            // Password Toggle
+            els.passSection.style.display = document.getElementById('showPasswordToggle').checked ? 'block' : 'none';
+
+            // Logo
+            if (state.logoUrl) {
+                els.logoPreview.src = state.logoUrl;
+                els.centerLogoImg.src = state.logoUrl;
+
+                if (state.logoInQr) {
+                    els.logoPreview.classList.add('hidden');
+                    els.qrCenterLogo.classList.remove('hidden');
+                } else {
+                    els.logoPreview.classList.remove('hidden');
+                    els.qrCenterLogo.classList.add('hidden');
+                }
+            } else {
+                els.logoPreview.classList.add('hidden');
+                els.qrCenterLogo.classList.add('hidden');
+            }
+
+            // Social
+            if (state.socialApp !== 'none' && state.socialHandle) {
+                els.socialRow.classList.remove('hidden');
+                els.socialRow.classList.add('flex');
+                els.socialHandleDisplay.textContent = state.socialHandle;
+
+                let iconSvg = '';
+                if (state.socialApp === 'instagram') iconSvg = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>';
+                if (state.socialApp === 'facebook') iconSvg = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+                if (state.socialApp === 'twitter') iconSvg = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>';
+
+                els.socialIconDisplay.innerHTML = iconSvg;
+
+            } else {
+                els.socialRow.classList.add('hidden');
+                els.socialRow.classList.remove('flex');
+            }
+
+            // QR
+            let qrString = `WIFI:S:${escapeSpecialChars(state.ssid)};`;
+            if (state.encryption !== 'nopass') {
+                qrString += `T:${state.encryption};P:${escapeSpecialChars(state.password)};;`;
+            } else {
+                qrString += `T:nopass;;`;
+            }
+            if (!state.ssid) qrString = "WIFI:S:Demo Network;T:nopass;;";
+
+            const qr = qrcode(0, 'H');
+            qr.addData(qrString);
+            qr.make();
+            // Increased module size to 8 (was 5) to make it larger and fill the container
+            els.qrImage.innerHTML = qr.createImgTag(8, 2); // 2 is margin
+        }
+
+        function escapeSpecialChars(str) {
+            if (!str) return '';
+            return str.replace(/([\\;,:"])/g, '\\$1');
+        }
+
+        // --- Event Binding ---
+        // Text Inputs
+        ['header', 'sub', 'ssid', 'password', 'socialHandle'].forEach(id => {
+            els[id].addEventListener('input', (e) => {
+                state[id] = e.target.value;
+                updateAll();
+            });
+        });
+
+        // Dropdowns
+        ['encryption', 'socialIcon'].forEach(id => {
+            document.getElementById(id).addEventListener('change', (e) => {
+                if (id === 'socialIcon') state.socialApp = e.target.value;
+                else state.encryption = e.target.value;
+                updateAll();
+            });
+        });
+
+        // Config Funcs
+        window.updateColor = (c) => { state.color = c; document.getElementById('customColor').value = c; updateAll(); };
+        window.setFont = (f) => { state.font = f; updateAll(); };
+        window.setFrame = (f) => { state.frame = f; updateAll(); };
+
+        // Checkboxes & Files
+        document.getElementById('showPasswordToggle').addEventListener('change', updateAll);
+        document.getElementById('showLogoInQr').addEventListener('change', (e) => { state.logoInQr = e.target.checked; updateAll(); });
+        els.logoUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    state.logoUrl = ev.target.result;
+                    updateAll();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Download Action
+        async function handleDownload(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '......';
+            btn.disabled = true;
+            try {
+                await new Promise(r => setTimeout(r, 100));
+                // Reduced scale from 3 to 2 for smaller file size
+                const canvas = await html2canvas(els.card, { scale: 2, backgroundColor: null });
+                const link = document.createElement('a');
+                link.download = `wifi-poster-${state.ssid || 'design'}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (e) { console.error(e); }
+            finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        els.downloadBtnNav.addEventListener('click', () => handleDownload(els.downloadBtnNav));
+        els.downloadBtnMobile.addEventListener('click', () => handleDownload(els.downloadBtnMobile));
+
+
+        // Dark Mode
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+            document.getElementById('sunIcon').classList.toggle('hidden');
+            document.getElementById('moonIcon').classList.toggle('hidden');
+        });
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            document.getElementById('sunIcon').classList.remove('hidden');
+            document.getElementById('moonIcon').classList.add('hidden');
+        }
+
+        // Init
+        updateAll();
+    </script>
+</body>
+
+</html>
